@@ -10,8 +10,8 @@
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
                 
-        <property name="java-output-path" value="/spring-boot-tutorial/target/classes"/>
-        <property name="context-root" value="spring-boot-application"/>
+        <property name="java-output-path" value="/spring-boot-application/target/classes"/>
+        <property name="context-root" value="spring-boot-tutorial"/>
             
     </wb-module>
     
