@@ -1,11 +1,12 @@
 package com.programming.test;
 
-import javax.transaction.Transactional;
-
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.util.Calendar;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,5 +39,21 @@ public class StatusTest {
 
 		Optional<StatusUpdate> retrieved = statusUpdateDao.findById(status.getId());
 		assertEquals("Matching status update", Optional.of(status), retrieved);
+	}
+	
+	@Test
+	public void testFindLatest() {
+		Calendar calender = Calendar.getInstance();
+		StatusUpdate lastStatusUpdate = null;
+		
+		for (int i = 0; i<10; i++) {
+			calender.add(Calendar.DAY_OF_YEAR, 1);
+			StatusUpdate statusUpdate = new StatusUpdate("Status update" + i, calender.getTime());
+			statusUpdateDao.save(statusUpdate);
+			lastStatusUpdate = statusUpdate;
+		}
+		
+		StatusUpdate retrieved = statusUpdateDao.findFirstByOrderByAddedDesc();
+		assertEquals("Latest status update", lastStatusUpdate, retrieved);
 	}
 }
