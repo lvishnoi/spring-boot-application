@@ -1,7 +1,10 @@
 package com.programming.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +30,8 @@ public class PageController {
 	}
 
 	@RequestMapping(value = "/addstatus", method = RequestMethod.GET)
-	public ModelAndView addStatus(ModelAndView modelAndView, @ModelAttribute("statusUpdate") StatusUpdate statusUpdate) {
+	public ModelAndView addStatus(ModelAndView modelAndView,
+			@ModelAttribute("statusUpdate") StatusUpdate statusUpdate) {
 		modelAndView.setViewName("app.addstatus");
 		StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
 
@@ -37,13 +41,16 @@ public class PageController {
 	}
 
 	@RequestMapping(value = "/addstatus", method = RequestMethod.POST)
-	public ModelAndView addStatus(ModelAndView modelAndView, StatusUpdate statusUpdate, String temp) {
+	public ModelAndView addStatus(ModelAndView modelAndView, @Valid StatusUpdate statusUpdate, BindingResult result) {
 		modelAndView.setViewName("app.addstatus");
 
-		statusUpdateService.save(statusUpdate);
+		if (!result.hasErrors()) {
+			statusUpdateService.save(statusUpdate);
+			modelAndView.getModel().put("statusUpdate", new StatusUpdate());
+		}
+
 		StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
 		modelAndView.getModel().put("latestStatusUpdate", latestStatusUpdate);
-		modelAndView.getModel().put("statusUpdate", new StatusUpdate());
 
 		return modelAndView;
 	}
