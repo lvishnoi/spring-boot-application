@@ -36,3 +36,5 @@ public class App extends SpringBootServletInitializer {
 		return tilesBasedViewResolver;
 	}
 }
+
+// this is test
