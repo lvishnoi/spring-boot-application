@@ -1,5 +1,7 @@
 package com.programming.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,33 @@ public class StatusUpdateController {
 
 	@Autowired
 	private StatusUpdateService statusUpdateService;
+	
+	@RequestMapping(value = "/editstatus", method = RequestMethod.GET)
+	public ModelAndView editStatus(ModelAndView modelAndView, @RequestParam(name="id") Long id) {
+		Optional<StatusUpdate> statusUpdate = statusUpdateService.get(id);
+		modelAndView.getModel().put("statusUpdate", statusUpdate);
+		modelAndView.setViewName("app.editstatus");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/editstatus", method = RequestMethod.POST)
+	public ModelAndView editStatus(ModelAndView modelAndView, @Valid StatusUpdate statusUpdate, BindingResult result) {
+		modelAndView.setViewName("app.editstatus");
+		
+		if (!result.hasErrors()) {
+			statusUpdateService.save(statusUpdate);
+			modelAndView.setViewName("redirect:/viewstatus");
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/deletestatus", method = RequestMethod.GET)
+	public ModelAndView deleteStatus(ModelAndView modelAndView, @RequestParam(name="id") Long id) {
+		statusUpdateService.delete(id);
+		modelAndView.setViewName("redirect:/viewstatus");
+		
+		return modelAndView;
+	}
 
 	@RequestMapping(value = "/viewstatus", method = RequestMethod.GET)
 	public ModelAndView viewStatus(ModelAndView modelAndView,
@@ -59,4 +88,5 @@ public class StatusUpdateController {
 
 		return modelAndView;
 	}
+	
 }

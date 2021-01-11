@@ -1,5 +1,7 @@
 package com.programming.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +14,7 @@ import com.programming.model.StatusUpdateDao;
 @Service
 public class StatusUpdateService {
 
-	private final static int PAGESIZE = 3;
+	private final static int PAGESIZE = 10;
 
 	@Autowired
 	private StatusUpdateDao statusUpdateDao;
@@ -29,5 +31,13 @@ public class StatusUpdateService {
 		PageRequest request = PageRequest.of(pageNumber - 1, PAGESIZE, Sort.by(Sort.Direction.DESC,"added"));
 
 		return statusUpdateDao.findAll(request);
+	}
+
+	public void delete(Long id) {
+		statusUpdateDao.deleteById(id);
+	}
+
+	public Optional<StatusUpdate> get(Long id) {
+		return statusUpdateDao.findById(id);
 	}
 }

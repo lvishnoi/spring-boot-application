@@ -9,9 +9,12 @@
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 
-		<lv:pagination url="${url}" page="${page}" size="10"/>
+		<lv:pagination url="${url}" page="${page}" size="10" />
 
 		<c:forEach var="statusUpdate" items="${page.content}">
+		<c:url var="editLink" value="/editstatus?id=${statusUpdate.id}"></c:url>
+		<c:url var="deleteLink" value="/deletestatus?id=${statusUpdate.id}"></c:url>
+		
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="panel-title">
@@ -21,7 +24,10 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<c:out value="${statusUpdate.text}" />
+					<div>${statusUpdate.text}</div>
+					<div class="edit-links pull-right">
+						<a href="${editLink}">edit</a> | <a onclick="return confirm('Really delete this status update');" href="${deleteLink}">delete</a>
+					</div>
 				</div>
 			</div>
 		</c:forEach>
