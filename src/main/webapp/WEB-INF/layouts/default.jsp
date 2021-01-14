@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <!DOCTYPE html>
 <html>
@@ -44,22 +46,36 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 
-					<li>
-						<ul class="nav">
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> Status <b class="caret"></b>
-							</a>
-								<ul class="dropdown-menu">
-									<li><a href="${contextRoot}/addstatus">Add Status</a></li>
-									<li><a href="${contextRoot}/viewstatus">View Status Updates</a></li>
-								</ul></li>
-						</ul>
-					</li>
+					<sec:authorize access="!isAuthenticated()">
+						<li><a href="${contextRoot}/login">Login</a></li>
+					</sec:authorize>
+
+					<sec:authorize access="isAuthenticated()">
+						<li>
+							<ul class="nav">
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown"> Status <b class="caret"></b>
+								</a>
+									<ul class="dropdown-menu">
+										<li><a href="${contextRoot}/addstatus">Add Status</a></li>
+										<li><a href="${contextRoot}/viewstatus">View Status
+												Updates</a></li>
+									</ul></li>
+							</ul>
+						</li>
+						<li><a href="javascript:$('#logoutForm').submit();">Logout</a></li>
+					</sec:authorize>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
+
+	<c:url var="logoutLink" value="/logout" />
+	<form id="logoutForm" method="post" action="${logoutLink}">
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+	</form>
 
 	<div class="container">
 		<tiles:insertAttribute name="content" />

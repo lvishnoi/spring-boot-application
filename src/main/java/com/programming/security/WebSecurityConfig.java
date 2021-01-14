@@ -15,7 +15,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/")
+				.antMatchers("/", "/about")
 				.permitAll()
 				.antMatchers(
 						"/js/*",
@@ -28,6 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login")
 				.defaultSuccessUrl("/")
+				.permitAll()
+				.and()
+			.logout()
 				.permitAll();
 	}
 	

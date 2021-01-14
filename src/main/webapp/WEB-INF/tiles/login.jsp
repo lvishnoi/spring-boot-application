@@ -9,16 +9,22 @@
 <div class="row">
 	<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 
+		<c:if test="${param.error != null}">
+			<div class="login-errror">Incorrect username or password.</div>
+		</c:if>
+
 		<div class="panel panel-default">
+
 			<div class="panel-heading">
 				<div class="panel-title">User Login</div>
 			</div>
 
 			<div class="panel-body">
 				<form method="post" action="${loginUrl}" class="login-form">
-				
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				
+
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+
 					<div class="input-group">
 						<input type="text" name="username" placeholder="Username"
 							class="form-control" />
