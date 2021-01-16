@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
@@ -35,6 +37,9 @@ public class App extends SpringBootServletInitializer {
 		tilesBasedViewResolver.setViewClass(TilesView.class);
 		return tilesBasedViewResolver;
 	}
+	
+	@Bean
+	PasswordEncoder getEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }
-
-// this is test

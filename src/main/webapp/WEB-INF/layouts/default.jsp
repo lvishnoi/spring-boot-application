@@ -48,9 +48,10 @@
 
 					<sec:authorize access="!isAuthenticated()">
 						<li><a href="${contextRoot}/login">Login</a></li>
+						<li><a href="${contextRoot}/register">Register</a></li>
 					</sec:authorize>
 
-					<sec:authorize access="isAuthenticated()">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<li>
 							<ul class="nav">
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -63,6 +64,8 @@
 									</ul></li>
 							</ul>
 						</li>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
 						<li><a href="javascript:$('#logoutForm').submit();">Logout</a></li>
 					</sec:authorize>
 				</ul>

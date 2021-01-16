@@ -7,40 +7,43 @@
 <c:url var="loginUrl" value="/login" />
 
 <div class="row">
+
 	<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 
-		<c:if test="${param.error != null}">
-		
-			<div class="login-errror">Incorrect username or password. </div>
-		</c:if>
+		<form:errors path="email" />
+		<form:errors path="password" />
 
 		<div class="panel panel-default">
 
 			<div class="panel-heading">
-				<div class="panel-title">User Login</div>
+				<div class="panel-title">Create an Account</div>
 			</div>
 
+
 			<div class="panel-body">
-				<form method="post" action="${loginUrl}" class="login-form">
-
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
+				<form:form method="post" modelAttribute="user" class="login-form">
 
 					<div class="input-group">
-						<input type="text" name="username" placeholder="Username"
+						<form:input type="text" path="email" placeholder="Email"
 							class="form-control" />
 					</div>
+
 					<div class="input-group">
-						<input type="password" name="password" placeholder="Password"
+						<form:input type="password" path="password" placeholder="Password"
 							class="form-control" />
 					</div>
+
 					<div class="input-group">
-						<button type="submit" class="btn-primary pull-right">Sign
-							In</button>
+						<input type="password" name="repeatpassword"
+							placeholder="Repeat password" class="form-control" />
 					</div>
-				</form>
+
+					<div class="input-group">
+						<button type="submit" class="btn-primary pull-right">Register</button>
+					</div>
+
+				</form:form>
 			</div>
 		</div>
 	</div>
-
 </div>
